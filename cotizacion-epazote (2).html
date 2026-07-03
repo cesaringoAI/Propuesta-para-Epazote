@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Propuesta Estratégica — Restaurante Epazote × Astra</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --navy: #0B132B;
+  --navy-deep: #070d1f;
+  --lavender: #8D9BFF;
+  --lavender-glow: rgba(141, 155, 255, 0.15);
+  --gray-mid: #E6E7EB;
+  --gray-light: #F3F4F6;
+  --white: #FFFFFF;
+  --font: 'Poppins', system-ui, sans-serif;
+  --font-serif: 'DM Serif Display', Georgia, serif;
+}
+
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+  font-family: var(--font);
+  background: var(--navy);
+  color: var(--white);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+.container { max-width: 960px; margin: 0 auto; padding: 0 clamp(24px, 6vw, 64px); }
+.container-narrow { max-width: 720px; margin: 0 auto; padding: 0 clamp(24px, 6vw, 64px); }
+
+/* ── Reveal ── */
+.reveal {
+  opacity: 0; transform: translateY(36px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+.reveal-delay-5 { transition-delay: 0.5s; }
+
+/* ── Progress ── */
+.progress-bar {
+  position: fixed; top: 0; left: 0; height: 2px;
+  z-index: 200; width: 0%; background: var(--lavender);
+}
+
+/* ── Topbar ── */
+.topbar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  padding: 14px clamp(24px, 6vw, 64px);
+  display: flex; justify-content: space-between; align-items: center;
+  backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+  transform: translateY(-100%);
+  transition: transform 0.4s ease, background 0.5s, border-color 0.5s;
+}
+.topbar.show { transform: translateY(0); }
+
+/* Light mode topbar (diagnostic) */
+.topbar.light-bg {
+  background: rgba(255, 255, 255, 0.92);
+  border-bottom: 1px solid rgba(11, 19, 43, 0.06);
+}
+.topbar.light-bg .topbar-logo { color: var(--navy); }
+.topbar.light-bg .topbar-logo svg path { fill: var(--lavender); }
+.topbar.light-bg .topbar-badge {
+  color: var(--lavender); background: rgba(141, 155, 255, 0.1);
+}
+
+/* Dark mode topbar (proposal) */
+.topbar.dark-bg {
+  background: rgba(11, 19, 43, 0.88);
+  border-bottom: 1px solid rgba(141, 155, 255, 0.06);
+}
+.topbar.dark-bg .topbar-logo { color: var(--white); }
+.topbar.dark-bg .topbar-logo svg path { fill: #8D9BFF; }
+.topbar.dark-bg .topbar-badge {
+  color: var(--lavender); background: var(--lavender-glow);
+}
+
+.topbar-logo { font-weight: 700; font-size: 1.05rem; letter-spacing: 0.04em; transition: color 0.4s; }
+.topbar-badge {
+  font-size: 0.65rem; font-weight: 500; letter-spacing: 0.1em;
+  text-transform: uppercase; padding: 4px 14px; border-radius: 20px;
+  transition: color 0.4s, background 0.4s;
+}
+
+/* ════════════════════════════════
+   HERO
+   ════════════════════════════════ */
+.hero {
+  min-height: 100vh; display: flex; flex-direction: column;
+  justify-content: center; align-items: center; text-align: center;
+  position: relative; padding: 80px 24px;
+  background: var(--navy);
+}
+.hero-bg { position: absolute; inset: 0; overflow: hidden; z-index: 0; }
+.hero-bg::after {
+  content: ''; position: absolute;
+  width: 600px; height: 600px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(141, 155, 255, 0.12) 0%, transparent 70%);
+  top: 50%; left: 50%; transform: translate(-50%, -50%);
+  animation: pulse-glow 6s ease-in-out infinite;
+}
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.6; transform: translate(-50%, -50%) scale(1); }
+  50% { opacity: 1; transform: translate(-50%, -50%) scale(1.15); }
+}
+.hero-content { position: relative; z-index: 1; }
+.hero-eyebrow {
+  font-size: 0.68rem; font-weight: 600; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--lavender); margin-bottom: 32px;
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+}
+.hero-eyebrow::before, .hero-eyebrow::after {
+  content: ''; width: 40px; height: 1px; background: var(--lavender); opacity: 0.4;
+}
+.hero-logo {
+  font-size: clamp(2.8rem, 7vw, 5rem);
+  font-weight: 700; letter-spacing: -0.02em; line-height: 1; margin-bottom: 8px;
+}
+.sparkle-hero { display: inline-block; width: 0.45em; height: 0.45em; margin-left: 4px; vertical-align: super; }
+.hero-sub {
+  font-size: 0.7rem; font-weight: 500; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--lavender); opacity: 0.7; margin-bottom: 64px;
+}
+.hero-divider {
+  width: 1px; height: 72px;
+  background: linear-gradient(to bottom, transparent, var(--lavender), transparent);
+  margin: 0 auto 44px;
+}
+.hero-title {
+  font-size: clamp(0.95rem, 2.2vw, 1.15rem); font-weight: 300;
+  letter-spacing: 0.12em; text-transform: uppercase; color: var(--gray-mid); margin-bottom: 12px;
+}
+.hero-client {
+  font-size: clamp(1.8rem, 5vw, 3rem);
+  font-weight: 700; letter-spacing: -0.01em; line-height: 1.1; margin-bottom: 20px;
+}
+.hero-location { font-size: 0.82rem; font-weight: 400; color: var(--lavender); letter-spacing: 0.06em; }
+.scroll-cue {
+  position: absolute; bottom: 36px; left: 50%; transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  opacity: 0.35; animation: bob 2.5s ease-in-out infinite;
+}
+.scroll-cue span { font-size: 0.62rem; letter-spacing: 0.15em; text-transform: uppercase; }
+.scroll-cue-line { width: 1px; height: 28px; background: linear-gradient(to bottom, var(--lavender), transparent); }
+@keyframes bob {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(8px); }
+}
+
+/* ── Dividers ── */
+.divider-dark {
+  width: 100%; height: 1px;
+  background: linear-gradient(to right, transparent, rgba(141, 155, 255, 0.12), transparent);
+}
+.divider-light {
+  width: 100%; height: 1px;
+  background: linear-gradient(to right, transparent, rgba(11, 19, 43, 0.08), transparent);
+}
+
+/* ════════════════════════════════
+   DIAGNÓSTICO — INVERTED PALETTE
+   White bg, navy text, lavender accent
+   ════════════════════════════════ */
+.diag-world {
+  background: var(--white);
+  color: var(--navy);
+}
+
+.diag-intro { padding: clamp(80px, 12vw, 140px) 0 clamp(40px, 6vw, 60px); }
+.diag-chapter { padding: clamp(44px, 5vw, 64px) 0; }
+
+.diag-eyebrow {
+  font-size: 0.63rem; font-weight: 600; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--lavender); margin-bottom: 20px;
+  display: flex; align-items: center; gap: 12px;
+}
+.diag-eyebrow::before { content: ''; width: 24px; height: 1px; background: var(--lavender); }
+
+.diag-heading {
+  font-family: var(--font-serif);
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  font-weight: 400; line-height: 1.2; letter-spacing: 0.01em;
+  margin-bottom: 28px; color: var(--navy);
+}
+.diag-heading-sm {
+  font-family: var(--font-serif);
+  font-size: clamp(1.3rem, 3vw, 1.8rem);
+  font-weight: 400; line-height: 1.25; margin-bottom: 24px;
+  color: var(--navy);
+}
+
+.diag-body {
+  font-size: clamp(0.92rem, 1.6vw, 1rem);
+  font-weight: 300; line-height: 1.85;
+  color: #4a5068;
+}
+.diag-body p + p { margin-top: 1.4em; }
+
+/* Pull Quote — light world */
+.pull-quote-light {
+  margin: clamp(36px, 5vw, 56px) 0;
+  padding: clamp(24px, 3.5vw, 36px) 0 clamp(24px, 3.5vw, 36px) clamp(24px, 4vw, 36px);
+  border-left: 2px solid var(--navy);
+  font-family: var(--font-serif);
+  font-size: clamp(1.15rem, 2.5vw, 1.5rem);
+  font-weight: 400; line-height: 1.4;
+  color: var(--navy); max-width: 600px;
+}
+.pull-quote-light em {
+  font-style: italic;
+  color: var(--lavender);
+}
+
+/* Duality Pairs — light */
+.duality-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 2px; margin: clamp(32px, 4vw, 48px) 0;
+}
+.duality-pair {
+  background: var(--gray-light);
+  border: 1px solid var(--gray-mid);
+  padding: 18px 20px; text-align: center;
+  font-size: 0.88rem; font-weight: 400;
+  letter-spacing: 0.03em; color: var(--navy);
+}
+.duality-pair span { color: var(--lavender); font-weight: 600; }
+
+/* Pillar List — light */
+.pillar-list { display: flex; flex-direction: column; margin: clamp(32px, 4vw, 48px) 0; }
+.pillar-item {
+  display: flex; gap: 20px; padding: clamp(18px, 2.5vw, 24px) 0;
+  border-bottom: 1px solid rgba(11, 19, 43, 0.06);
+  align-items: baseline;
+}
+.pillar-item:last-child { border-bottom: none; }
+.pillar-num {
+  font-size: 0.68rem; font-weight: 600; color: var(--lavender);
+  letter-spacing: 0.05em; flex-shrink: 0; width: 24px;
+}
+.pillar-item h4 { font-size: 0.95rem; font-weight: 600; margin-bottom: 6px; color: var(--navy); }
+.pillar-item p { font-size: 0.85rem; font-weight: 300; line-height: 1.65; color: #6b7280; }
+
+/* Voice Lines — light */
+.voice-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(255px, 1fr));
+  gap: 10px; margin: clamp(32px, 4vw, 48px) 0;
+}
+.voice-line {
+  padding: 18px 22px;
+  background: var(--gray-light);
+  border: 1px solid var(--gray-mid);
+  border-radius: 4px;
+  font-family: var(--font-serif);
+  font-size: 0.9rem; font-style: italic;
+  color: var(--navy); line-height: 1.5;
+}
+
+/* Chapter Break — light */
+.chapter-break {
+  display: flex; align-items: center; gap: 16px;
+  padding: clamp(28px, 4vw, 40px) 0;
+}
+.chapter-break-line { flex: 1; height: 1px; background: rgba(11, 19, 43, 0.06); }
+.chapter-break-star { width: 10px; height: 10px; opacity: 0.25; }
+
+/* ════════════════════════════════
+   TRANSITION
+   ════════════════════════════════ */
+.transition-band {
+  padding: clamp(100px, 14vw, 160px) 0;
+  text-align: center;
+  background: linear-gradient(180deg,
+    var(--white) 0%,
+    var(--gray-light) 15%,
+    #d5d8e8 30%,
+    #3a4270 55%,
+    var(--navy-deep) 80%,
+    var(--navy) 100%
+  );
+  color: var(--white);
+  position: relative;
+}
+.transition-eyebrow {
+  font-size: 0.63rem; font-weight: 600; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--lavender); margin-bottom: 24px;
+  display: flex; align-items: center; justify-content: center; gap: 12px;
+}
+.transition-eyebrow::before, .transition-eyebrow::after {
+  content: ''; width: 32px; height: 1px; background: var(--lavender); opacity: 0.4;
+}
+.transition-band h2 {
+  font-size: clamp(1.4rem, 3.5vw, 2rem);
+  font-weight: 700; letter-spacing: -0.01em; line-height: 1.3; margin-bottom: 16px;
+}
+.transition-band p {
+  font-size: clamp(0.85rem, 1.4vw, 0.92rem);
+  font-weight: 300; color: var(--lavender);
+  letter-spacing: 0.04em; max-width: 460px; margin: 0 auto; line-height: 1.7;
+}
+
+/* ════════════════════════════════
+   PROPUESTA — DARK PALETTE (Astra)
+   ════════════════════════════════ */
+.prop-world { background: var(--navy); color: var(--white); }
+
+.section {
+  padding: clamp(72px, 10vw, 120px) 0;
+  position: relative;
+}
+.section-eyebrow {
+  font-size: 0.63rem; font-weight: 600; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--lavender); margin-bottom: 20px;
+  display: flex; align-items: center; gap: 12px;
+}
+.section-eyebrow::before { content: ''; width: 24px; height: 1px; background: var(--lavender); }
+.section-heading {
+  font-size: clamp(1.5rem, 3.8vw, 2.3rem);
+  font-weight: 700; letter-spacing: -0.02em; line-height: 1.15; margin-bottom: 28px;
+}
+.section-body {
+  font-size: clamp(0.92rem, 1.7vw, 1.02rem);
+  font-weight: 300; line-height: 1.8; color: var(--gray-mid); max-width: 640px;
+}
+
+/* Alcance Grid */
+.alcance-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  gap: 2px; margin-top: 44px;
+}
+.alcance-card {
+  background: rgba(141, 155, 255, 0.03);
+  border: 1px solid rgba(141, 155, 255, 0.07);
+  padding: clamp(26px, 4vw, 36px);
+  transition: background 0.4s, border-color 0.4s;
+}
+.alcance-card:hover {
+  background: rgba(141, 155, 255, 0.07);
+  border-color: rgba(141, 155, 255, 0.18);
+}
+.alcance-icon { width: 32px; height: 32px; margin-bottom: 18px; color: var(--lavender); }
+.alcance-icon svg { width: 100%; height: 100%; }
+.alcance-card h3 { font-size: 0.9rem; font-weight: 600; margin-bottom: 8px; }
+.alcance-card p { font-size: 0.78rem; font-weight: 300; line-height: 1.65; color: rgba(255,255,255,0.5); }
+
+.plan-highlight {
+  margin-top: 40px; display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 16px;
+}
+.plan-stat {
+  background: rgba(141, 155, 255, 0.04);
+  border: 1px solid rgba(141, 155, 255, 0.08);
+  padding: 26px 20px; text-align: center; border-radius: 6px;
+}
+.plan-stat-num { font-size: 1.9rem; font-weight: 700; color: var(--lavender); line-height: 1; margin-bottom: 4px; }
+.plan-stat-label { font-size: 0.72rem; font-weight: 400; color: var(--gray-mid); letter-spacing: 0.04em; }
+
+.nota-produccion {
+  margin-top: 28px; padding: 22px 26px;
+  background: rgba(141, 155, 255, 0.03); border-radius: 6px;
+  border: 1px solid rgba(141, 155, 255, 0.07);
+  font-size: 0.8rem; font-weight: 300; color: rgba(255,255,255,0.45); line-height: 1.7;
+}
+
+.entregable-row {
+  display: flex; align-items: baseline; gap: 20px; padding: 22px 0;
+  border-bottom: 1px solid rgba(141, 155, 255, 0.06);
+}
+.entregable-row:last-child { border-bottom: none; }
+.entregable-num {
+  font-size: 0.68rem; font-weight: 600; color: var(--lavender);
+  letter-spacing: 0.05em; flex-shrink: 0; width: 26px;
+}
+.entregable-text {
+  font-size: clamp(0.9rem, 1.5vw, 0.98rem);
+  font-weight: 400; line-height: 1.6; color: var(--gray-mid);
+}
+
+.consideraciones-block {
+  margin-top: 36px; padding: clamp(28px, 4vw, 44px);
+  border-left: 2px solid var(--lavender);
+  background: rgba(141, 155, 255, 0.02);
+}
+.consideraciones-block p {
+  font-size: clamp(0.88rem, 1.5vw, 0.96rem);
+  font-weight: 300; line-height: 1.8; color: var(--gray-mid);
+}
+.consideraciones-block p + p { margin-top: 18px; }
+
+.inversion-section {
+  background: linear-gradient(135deg, var(--navy) 0%, #10193a 100%);
+  text-align: center;
+}
+.inversion-amount {
+  font-size: clamp(3rem, 10vw, 5.5rem);
+  font-weight: 700; letter-spacing: -0.03em; line-height: 1; margin-bottom: 8px;
+  background: linear-gradient(135deg, var(--white) 40%, var(--lavender));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.inversion-currency {
+  font-size: clamp(0.95rem, 2.2vw, 1.2rem);
+  font-weight: 300; letter-spacing: 0.1em; color: var(--lavender); margin-bottom: 36px;
+}
+.inversion-note {
+  font-size: 0.82rem; font-weight: 300; color: var(--gray-mid);
+  max-width: 500px; margin: 0 auto; line-height: 1.7;
+}
+
+/* Footer */
+.footer {
+  padding: clamp(64px, 10vw, 110px) 0;
+  text-align: center;
+  border-top: 1px solid rgba(141, 155, 255, 0.06);
+}
+.footer-logo {
+  font-size: 1.6rem; font-weight: 700; letter-spacing: 0.02em; margin-bottom: 6px;
+}
+.footer-sub {
+  font-size: 0.7rem; font-weight: 500; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--lavender); opacity: 0.5;
+  margin-bottom: 48px;
+}
+.footer-founders {
+  font-size: 0.88rem; font-weight: 400; color: var(--gray-mid);
+  letter-spacing: 0.02em; margin-bottom: 6px;
+}
+.footer-role {
+  font-size: 0.7rem; font-weight: 400; letter-spacing: 0.1em;
+  text-transform: uppercase; color: rgba(255,255,255,0.3);
+}
+.footer-year {
+  margin-top: 52px;
+  font-size: 0.65rem; color: rgba(255,255,255,0.15); letter-spacing: 0.1em;
+}
+
+/* ── Responsive ── */
+@media (max-width: 600px) {
+  .alcance-grid, .plan-highlight { grid-template-columns: 1fr; }
+  .duality-grid { grid-template-columns: 1fr 1fr; }
+  .voice-grid { grid-template-columns: 1fr; }
+  .hero-divider { height: 44px; }
+}
+@media print {
+  .topbar, .scroll-cue, .progress-bar { display: none; }
+  .reveal { opacity: 1 !important; transform: none !important; }
+  body { background: white; color: black; }
+}
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+
+<nav class="topbar dark-bg" id="topbar">
+  <span class="topbar-logo">astra<svg viewBox="0 0 24 24" style="display:inline-block;width:12px;height:12px;margin-left:2px;vertical-align:super"><path d="M12 2l2.09 6.26L20.18 10l-6.09 1.74L12 18l-2.09-6.26L3.82 10l6.09-1.74L12 2z" fill="#8D9BFF"/></svg></span>
+  <span class="topbar-badge">Propuesta Estratégica</span>
+</nav>
+
+<!-- ════════════════════════════════════
+     HERO
+     ════════════════════════════════════ -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow reveal">Propuesta Estratégica</div>
+    <div class="hero-logo reveal reveal-delay-1">astra<svg class="sparkle-hero" viewBox="0 0 24 24"><path d="M12 2l2.09 6.26L20.18 10l-6.09 1.74L12 18l-2.09-6.26L3.82 10l6.09-1.74L12 2z" fill="#8D9BFF"/></svg></div>
+    <div class="hero-sub reveal reveal-delay-2">Consultoría Estratégica</div>
+    <div class="hero-divider reveal reveal-delay-3"></div>
+    <div class="hero-title reveal reveal-delay-3">Marketing Digital para</div>
+    <div class="hero-client reveal reveal-delay-4">Restaurante Epazote</div>
+    <div class="hero-location reveal reveal-delay-5">Saltillo, Coahuila</div>
+  </div>
+  <div class="scroll-cue"><span>Explorar</span><div class="scroll-cue-line"></div></div>
+</section>
+
+<!-- ════════════════════════════════════════════
+     PARTE I · DIAGNÓSTICO  (inverted / light)
+     ════════════════════════════════════════════ -->
+<div class="diag-world" id="diagWorld">
+
+  <section class="diag-intro">
+    <div class="container-narrow">
+      <div class="diag-eyebrow reveal">Parte I · Diagnóstico</div>
+      <h2 class="diag-heading reveal reveal-delay-1">Bajar el concepto<br>a comunicación.</h2>
+    </div>
+  </section>
+
+  <section class="diag-chapter">
+    <div class="container-narrow">
+      <div class="diag-body reveal">
+        <p>Epazote no tiene un problema de producto. Tiene un problema de traducción.</p>
+        <p>El restaurante ya cuenta con un espacio atractivo en Parque Centro, buena clientela inicial, una propuesta gastronómica sólida y una intención cultural clara.</p>
+        <p>Sin embargo, lo que hoy se comunica no alcanza a transmitir la riqueza real del proyecto. La marca está siendo percibida, en parte, como un restaurante bonito, caro o elitista, cuando en realidad su esencia es mucho más profunda, accesible y cercana.</p>
+      </div>
+      <div class="pull-quote-light reveal">
+        Epazote no es solo un restaurante de comida mexicana. Es una cocina construida alrededor del <em>maíz criollo, el barro, el hierro, el fuego</em>, la memoria del sur y el carácter del norte.
+      </div>
+      <div class="diag-body reveal">
+        <p>El ensayo conceptual del dueño ya contiene una tesis muy potente: durante años, la gastronomía mexicana ha contado mejor al sur y al centro del país, mientras que el norte ha sido reducido casi siempre a la carne asada. Epazote nace justamente para discutir esa simplificación: el norte no como escasez, sino como carácter, resistencia, adaptación, fuego y cultura.</p>
+        <p>Ahí está el corazón de la marca.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="container-narrow"><div class="chapter-break reveal"><div class="chapter-break-line"></div><svg class="chapter-break-star" viewBox="0 0 24 24"><path d="M12 2l2.09 6.26L20.18 10l-6.09 1.74L12 18l-2.09-6.26L3.82 10l6.09-1.74L12 2z" fill="#0B132B"/></svg><div class="chapter-break-line"></div></div></div>
+
+  <section class="diag-chapter">
+    <div class="container-narrow">
+      <div class="diag-body reveal">
+        <p>Epazote debe dejar de comunicar únicamente producto, platillos o estética de restaurante, y empezar a comunicar una postura: la cocina mexicana también se entiende desde el norte. También desde el desierto. También desde el hierro, la brasa, la carne, la austeridad, la leña y el tiempo.</p>
+        <p>Pero esa postura no se sostiene sola. Necesita bajar a un lenguaje claro, emocional y cotidiano.</p>
+      </div>
+      <div class="pull-quote-light reveal">
+        La comunicación debe cambiar de lógica: <em>menos anuncio, más proceso. Menos logo, más textura. Menos pieza institucional, más gesto vivo.</em>
+      </div>
+      <div class="diag-body reveal">
+        <p>Hoy existe una distancia entre lo que Epazote quiere ser y lo que sus redes transmiten. La producción actual se siente poco nativa digital, más cercana a códigos de televisión o de publicidad tradicional. Hay exceso de logos, imágenes demasiado armadas, piezas que no siempre tienen una voz propia y algunos recursos de inteligencia artificial que, en lugar de sumar, pueden volver artificial un concepto que debería sentirse profundamente material, artesanal y vivo.</p>
+        <p>Eso es especialmente delicado porque Epazote trabaja con símbolos reales: maíz, barro, comal, horno, hierro, carbón, grasa, humo, tortilla, salsa, leña, manos. Si la comunicación se ve demasiado plástica, distante o sobreproducida, traiciona la materia del concepto.</p>
+      </div>
+      <div class="pull-quote-light reveal">
+        Epazote no necesita verse más producido.<br><em>Necesita verse más verdadero.</em>
+      </div>
+    </div>
+  </section>
+
+  <div class="container-narrow"><div class="chapter-break reveal"><div class="chapter-break-line"></div><svg class="chapter-break-star" viewBox="0 0 24 24"><path d="M12 2l2.09 6.26L20.18 10l-6.09 1.74L12 18l-2.09-6.26L3.82 10l6.09-1.74L12 2z" fill="#0B132B"/></svg><div class="chapter-break-line"></div></div></div>
+
+  <section class="diag-chapter">
+    <div class="container-narrow">
+      <div class="diag-eyebrow reveal">Eje narrativo central</div>
+      <h2 class="diag-heading-sm reveal reveal-delay-1">El maíz criollo como centro narrativo.</h2>
+      <div class="diag-body reveal">
+        <p>No como ingrediente decorativo ni como dato gourmet, sino como estructura. En Epazote el maíz no es acompañamiento; es la base desde donde se entiende la cocina. El comal de barro no es escenografía nostálgica, sino una herramienta viva donde se transforma el grano nixtamalizado y se sostiene una memoria gastronómica.</p>
+        <p>Ese punto debe aparecer en todo: redes, menú, fotografía, video, copy, experiencia de mesa, prensa y activaciones.</p>
+      </div>
+      <div class="pull-quote-light reveal">
+        Epazote no vende simplemente tortillas.<br><em>Vende la idea de que una tortilla puede contener historia.</em>
+      </div>
+      <div class="diag-body reveal">
+        <p>Tampoco vende solo tacos. Puede tener tacos, claro, y pueden ser una puerta de entrada accesible para nuevos públicos. Pero la marca no debe reducirse a eso. Un taco en Epazote debe entenderse como una pieza del sistema: maíz criollo, comal de barro, fuego, carne, salsa, técnica y territorio.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="container-narrow"><div class="chapter-break reveal"><div class="chapter-break-line"></div><svg class="chapter-break-star" viewBox="0 0 24 24"><path d="M12 2l2.09 6.26L20.18 10l-6.09 1.74L12 18l-2.09-6.26L3.82 10l6.09-1.74L12 2z" fill="#0B132B"/></svg><div class="chapter-break-line"></div></div></div>
+
+  <section class="diag-chapter">
+    <div class="container-narrow">
+      <div class="diag-eyebrow reveal">Segundo eje</div>
+      <h2 class="diag-heading-sm reveal reveal-delay-1">Barro e hierro.<br>El diálogo que define la marca.</h2>
+      <div class="diag-body reveal">
+        <p>El barro representa el sur y el centro: el maíz, la tortilla, la humedad, la paciencia, la cocina lenta, el comal y la raíz.</p>
+        <p>El hierro representa el norte: la carne, la brasa, el desierto, la resistencia, la intensidad, el rancho, el sartén curado y el fuego directo.</p>
+        <p>El hierro fundido no aparece como una moda estética, sino como una declaración cultural: una herramienta asociada al calor, a la firmeza, al uso constante y a la cocina norteña.</p>
+        <p>Esta dualidad debe convertirse en la columna vertebral de la marca:</p>
+      </div>
+      <div class="duality-grid reveal">
+        <div class="duality-pair"><span>Barro</span> y hierro</div>
+        <div class="duality-pair"><span>Maíz</span> y carne</div>
+        <div class="duality-pair"><span>Sur</span> y norte</div>
+        <div class="duality-pair"><span>Raíz</span> y carácter</div>
+        <div class="duality-pair"><span>Comal</span> y brasa</div>
+        <div class="duality-pair"><span>Memoria</span> y fuego</div>
+      </div>
+      <div class="pull-quote-light reveal">
+        Epazote no debe hablar de "fusión". Lo que propone no es una mezcla de moda, sino <em>un diálogo entre territorios.</em>
+      </div>
+      <div class="diag-body reveal">
+        <p>El comal y el hierro conviven, el maíz acompaña a la carne, las hierbas equilibran el humo y las regiones no se anulan, se escuchan.</p>
+        <p>Esa debe ser una regla interna de comunicación: no vender fusión, vender diálogo.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="container-narrow"><div class="chapter-break reveal"><div class="chapter-break-line"></div><svg class="chapter-break-star" viewBox="0 0 24 24"><path d="M12 2l2.09 6.26L20.18 10l-6.09 1.74L12 18l-2.09-6.26L3.82 10l6.09-1.74L12 2z" fill="#0B132B"/></svg><div class="chapter-break-line"></div></div></div>
+
+  <section class="diag-chapter">
+    <div class="container-narrow">
+      <div class="diag-eyebrow reveal">Tercer eje</div>
+      <h2 class="diag-heading-sm reveal reveal-delay-1">Fuego real como oficio.</h2>
+      <div class="diag-body reveal">
+        <p>No el fuego como espectáculo visual, sino como estructura de sabor. Epazote no necesita mostrar llamas para impresionar. Necesita mostrar brasa, paciencia, atención, carbón, proceso y tiempo. El fuego no debe ser show; debe ser oficio.</p>
+      </div>
+      <div class="pull-quote-light reveal">
+        El cortadillo: la carne se asa primero al carbón, se reserva, y al día siguiente se guisa en salsa martajada. <em>Primero la brasa, después el tiempo, luego la salsa.</em> Eso es narrativa pura.
+      </div>
+    </div>
+  </section>
+
+  <div class="container-narrow"><div class="chapter-break reveal"><div class="chapter-break-line"></div><svg class="chapter-break-star" viewBox="0 0 24 24"><path d="M12 2l2.09 6.26L20.18 10l-6.09 1.74L12 18l-2.09-6.26L3.82 10l6.09-1.74L12 2z" fill="#0B132B"/></svg><div class="chapter-break-line"></div></div></div>
+
+  <section class="diag-chapter">
+    <div class="container-narrow">
+      <div class="diag-eyebrow reveal">Percepción de marca</div>
+      <h2 class="diag-heading-sm reveal reveal-delay-1">Profundidad accesible, no lujo.</h2>
+      <div class="diag-body reveal">
+        <p>La estrategia debe corregir también la percepción de precio y elitismo. Epazote está en Parque Centro, y eso puede activar en el público la idea de un lugar caro o distante. Si la comunicación se ve demasiado formal, rígida o producida, esa percepción se refuerza.</p>
+        <p>La respuesta no debe ser decir "no somos caros". Eso pondría la marca a la defensiva. La respuesta debe ser mostrar accesibilidad desde la experiencia: tacos, platos compartidos, comidas entre semana, sobremesas, familias, niños, momentos casuales, porciones reales, manos trabajando, mesas vivas, gente comiendo sin solemnidad.</p>
+      </div>
+      <div class="pull-quote-light reveal">
+        Cuidado, pero no inaccesible. Cultural, pero no pretencioso. Bonito, pero no frío. Profundo, pero no complicado. <em>Su promesa debe ser profundidad accesible.</em>
+      </div>
+    </div>
+  </section>
+
+  <div class="container-narrow"><div class="chapter-break reveal"><div class="chapter-break-line"></div><svg class="chapter-break-star" viewBox="0 0 24 24"><path d="M12 2l2.09 6.26L20.18 10l-6.09 1.74L12 18l-2.09-6.26L3.82 10l6.09-1.74L12 2z" fill="#0B132B"/></svg><div class="chapter-break-line"></div></div></div>
+
+  <section class="diag-chapter">
+    <div class="container-narrow">
+      <div class="diag-eyebrow reveal">Ventaja competitiva</div>
+      <h2 class="diag-heading-sm reveal reveal-delay-1">La identidad ya está.<br>Falta volverla visible.</h2>
+      <div class="diag-body reveal">
+        <p>La competencia directa —La Mar en Mestiza y Vainilla— ayuda a entender el contexto de mercado, pero Epazote no debería competir copiando códigos de restaurante de plaza, de marca aspiracional o de experiencia "premium" genérica. Su ventaja está en otro lado: en tener una identidad más difícil de replicar.</p>
+        <p>Mientras otros espacios pueden competir por ambiente, ubicación, tendencia o diseño, Epazote puede competir por coherencia. Si se habla de carbón, hay carbón; si se habla de hierro fundido, se cocina en hierro; si se habla de maíz nixtamalizado, el proceso se respeta. La narrativa no está inventada por encima del producto; el producto la sostiene.</p>
+      </div>
+      <div class="pull-quote-light reveal"><em>Esa es una ventaja enorme.</em></div>
+      <div class="diag-body reveal">
+        <p>Epazote no necesita fabricar una identidad nueva. La identidad ya está. Está en los hornos de barro, en los comales, en el maíz criollo, en la brasa, en el hierro, en la carta, en la grasa natural, en la tortilla, en la salsa, en el fuego y en la decisión de poner al norte dentro de una conversación gastronómica más amplia.</p>
+        <p>Lo que falta es ordenar esa identidad y volverla visible.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="container-narrow"><div class="chapter-break reveal"><div class="chapter-break-line"></div><svg class="chapter-break-star" viewBox="0 0 24 24"><path d="M12 2l2.09 6.26L20.18 10l-6.09 1.74L12 18l-2.09-6.26L3.82 10l6.09-1.74L12 2z" fill="#0B132B"/></svg><div class="chapter-break-line"></div></div></div>
+
+  <section class="diag-chapter">
+    <div class="container-narrow">
+      <div class="diag-eyebrow reveal">Estructura propuesta</div>
+      <h2 class="diag-heading-sm reveal reveal-delay-1">Cinco pilares de comunicación.</h2>
+      <div class="pillar-list">
+        <div class="pillar-item reveal"><span class="pillar-num">01</span><div><h4>Maíz criollo como origen</h4><p>La tortilla debe ser protagonista. El comal debe mostrarse como herramienta viva. El maíz debe explicar la cocina.</p></div></div>
+        <div class="pillar-item reveal reveal-delay-1"><span class="pillar-num">02</span><div><h4>Barro e hierro como identidad</h4><p>Todo debe girar alrededor de esa tensión: sur y norte, raíz y resistencia, paciencia e intensidad.</p></div></div>
+        <div class="pillar-item reveal reveal-delay-2"><span class="pillar-num">03</span><div><h4>Fuego real como oficio</h4><p>Mostrar brasa, carbón, humo, espera, carne, guisos y procesos. No fuego espectacular, sino fuego que cocina.</p></div></div>
+        <div class="pillar-item reveal reveal-delay-3"><span class="pillar-num">04</span><div><h4>El norte como cultura</h4><p>El norte también tiene memoria, técnica y profundidad gastronómica.</p></div></div>
+        <div class="pillar-item reveal reveal-delay-4"><span class="pillar-num">05</span><div><h4>Arte como conexión</h4><p>No adorno elitista. Sensibilidad: barro, textura, objetos, mesa, fuego, oficio, imagen, atmósfera y colaboraciones culturales.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="container-narrow"><div class="chapter-break reveal"><div class="chapter-break-line"></div><svg class="chapter-break-star" viewBox="0 0 24 24"><path d="M12 2l2.09 6.26L20.18 10l-6.09 1.74L12 18l-2.09-6.26L3.82 10l6.09-1.74L12 2z" fill="#0B132B"/></svg><div class="chapter-break-line"></div></div></div>
+
+  <section class="diag-chapter">
+    <div class="container-narrow">
+      <div class="diag-eyebrow reveal">Voz de marca</div>
+      <h2 class="diag-heading-sm reveal reveal-delay-1">Más humana, sensorial y directa.</h2>
+      <div class="voice-grid reveal reveal-delay-2">
+        <div class="voice-line">"Barro y hierro en la misma mesa."</div>
+        <div class="voice-line">"El norte también tiene memoria."</div>
+        <div class="voice-line">"El maíz no acompaña: sostiene."</div>
+        <div class="voice-line">"No es fusión. Es diálogo."</div>
+        <div class="voice-line">"Fuego real, maíz criollo y cocina con carácter."</div>
+        <div class="voice-line">"El barro no está para decorar. Está para cocinar."</div>
+        <div class="voice-line">"Una tortilla también puede contar un territorio."</div>
+        <div class="voice-line">"Primero la brasa. Luego el tiempo. Después la salsa."</div>
+        <div class="voice-line">"Donde el sur y el norte se encuentran alrededor del maíz."</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="container-narrow"><div class="chapter-break reveal"><div class="chapter-break-line"></div><svg class="chapter-break-star" viewBox="0 0 24 24"><path d="M12 2l2.09 6.26L20.18 10l-6.09 1.74L12 18l-2.09-6.26L3.82 10l6.09-1.74L12 2z" fill="#0B132B"/></svg><div class="chapter-break-line"></div></div></div>
+
+  <section class="diag-chapter">
+    <div class="container-narrow">
+      <div class="diag-eyebrow reveal">Dirección visual</div>
+      <h2 class="diag-heading-sm reveal reveal-delay-1">Menos composición artificial. Más verdad.</h2>
+      <div class="diag-body reveal">
+        <p>La fotografía y el video deben ir hacia una estética más documental, táctil y cercana. Manos, tortillas inflándose, masa, humo, barro agrietado, hierro caliente, carbón, salsas martajadas, carne reposando, hierbas frescas, niños, familias, mesas compartidas, detalles del espacio, arte vivo. Menos composiciones artificiales. Menos gráficos sobrepuestos. Menos logo. Más verdad.</p>
+      </div>
+      <div class="pull-quote-light reveal">
+        Epazote debe verse como un lugar <em>donde pasan cosas reales.</em>
+      </div>
+    </div>
+  </section>
+
+  <div class="container-narrow"><div class="chapter-break reveal"><div class="chapter-break-line"></div><svg class="chapter-break-star" viewBox="0 0 24 24"><path d="M12 2l2.09 6.26L20.18 10l-6.09 1.74L12 18l-2.09-6.26L3.82 10l6.09-1.74L12 2z" fill="#0B132B"/></svg><div class="chapter-break-line"></div></div></div>
+
+  <section class="diag-chapter" style="padding-bottom: clamp(60px, 8vw, 80px);">
+    <div class="container-narrow">
+      <div class="diag-eyebrow reveal">Síntesis estratégica</div>
+      <div class="pull-quote-light reveal" style="margin-top:20px; font-size:clamp(1.1rem,2.2vw,1.35rem);">
+        Reposicionar a Epazote como una cocina mexicana de <em>maíz criollo, barro, hierro y fuego real</em>, que conecta la raíz del sur con el carácter del norte en una experiencia cultural accesible, cálida y contemporánea.
+      </div>
+      <div class="diag-body reveal">
+        <p>Esto implica pasar de una comunicación centrada en producto y estética de restaurante, a una comunicación centrada en proceso, territorio, materia, historia, arte y experiencia.</p>
+      </div>
+      <div class="diag-body reveal" style="margin-top:24px;">
+        <p style="color:var(--lavender); font-family:var(--font-serif); font-style:italic; font-size:1.05rem;">"Ven a sentarte donde el barro y el hierro conversan."</p>
+        <p style="color:var(--lavender); font-family:var(--font-serif); font-style:italic; font-size:1.05rem;">"Ven a probar una cocina donde el maíz sostiene y el fuego da carácter."</p>
+        <p style="color:var(--lavender); font-family:var(--font-serif); font-style:italic; font-size:1.05rem;">"Ven a un lugar donde el norte no es una simplificación, sino una cultura viva."</p>
+      </div>
+      <div class="diag-body reveal" style="margin-top:28px;">
+        <p>Epazote no es solo un restaurante. Es una postura cultural. Una cocina donde el territorio importa, donde el barro no compite con el hierro, donde el desierto no excluye a la milpa y donde México se entiende como una conversación amplia, compleja y todavía pendiente.</p>
+        <p>Epazote debe dejar de parecer un restaurante bonito en Parque Centro.</p>
+      </div>
+      <div class="pull-quote-light reveal" style="font-size:clamp(1.15rem,2.4vw,1.45rem);">
+        Debe empezar a sentirse como lo que realmente es: <em>una mesa de maíz, barro, hierro y fuego donde el sur y el norte se reconocen.</em>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- ════════════════════════════════════════════
+     TRANSICIÓN  (light → dark gradient)
+     ════════════════════════════════════════════ -->
+<div class="transition-band" id="transitionBand">
+  <div class="container">
+    <div class="transition-eyebrow reveal">Parte II · Propuesta</div>
+    <h2 class="reveal reveal-delay-1">La estrategia que proponemos<br>para hacer visible esa identidad.</h2>
+    <p class="reveal reveal-delay-2">A partir del diagnóstico anterior, esta es nuestra propuesta de trabajo para Restaurante Epazote.</p>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     PARTE II · PROPUESTA  (dark / Astra)
+     ════════════════════════════════════════════ -->
+<div class="prop-world" id="propWorld">
+
+  <div class="divider-dark"></div>
+  <section class="section">
+    <div class="container">
+      <div class="section-eyebrow reveal">Objetivo</div>
+      <h2 class="section-heading reveal reveal-delay-1">Construir la estrategia<br>que Epazote necesita para crecer.</h2>
+      <p class="section-body reveal reveal-delay-2">Desarrollar una estrategia integral de comunicación y marketing digital que permita fortalecer el posicionamiento de Restaurante Epazote, establecer una identidad de marca consistente y generar una guía de trabajo a largo plazo para la creación de contenido y la gestión de sus plataformas digitales.</p>
+    </div>
+  </section>
+
+  <div class="divider-dark"></div>
+  <section class="section">
+    <div class="container">
+      <div class="section-eyebrow reveal">Alcance de la estrategia</div>
+      <h2 class="section-heading reveal reveal-delay-1">Lo que vamos<br>a construir juntos.</h2>
+      <div class="alcance-grid">
+        <div class="alcance-card reveal"><div class="alcance-icon"><svg viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="18" r="14"/><path d="M18 10v8l5 3"/></svg></div><h3>Diagnóstico de marca</h3><p>Análisis de la situación actual y presencia digital. Fortalezas, debilidades y oportunidades.</p></div>
+        <div class="alcance-card reveal reveal-delay-1"><div class="alcance-icon"><svg viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="18" r="4"/><path d="M18 4v4M18 28v4M4 18h4M28 18h4M7.76 7.76l2.83 2.83M25.41 25.41l2.83 2.83M7.76 28.24l2.83-2.83M25.41 10.59l2.83-2.83"/></svg></div><h3>Objetivos y KPIs</h3><p>Indicadores clave de rendimiento medibles y accionables.</p></div>
+        <div class="alcance-card reveal reveal-delay-2"><div class="alcance-icon"><svg viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M28 30H8a2 2 0 01-2-2V8a2 2 0 012-2h20a2 2 0 012 2v20a2 2 0 01-2 2z"/><circle cx="14" cy="14" r="3"/><path d="M30 24l-6-6-16 16"/></svg></div><h3>Buyer Persona</h3><p>Perfiles de cliente ideal y definición de público objetivo.</p></div>
+        <div class="alcance-card reveal"><div class="alcance-icon"><svg viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="8 24 16 16 22 22 30 12"/><polyline points="24 12 30 12 30 18"/></svg></div><h3>Análisis de plataformas</h3><p>Evaluación de canales digitales y oportunidades de crecimiento.</p></div>
+        <div class="alcance-card reveal reveal-delay-1"><div class="alcance-icon"><svg viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="6" width="10" height="10" rx="2"/><rect x="20" y="6" width="10" height="10" rx="2"/><rect x="6" y="20" width="10" height="10" rx="2"/><rect x="20" y="20" width="10" height="10" rx="2"/></svg></div><h3>Benchmark competitivo</h3><p>Análisis de competencia directa e indirecta. Diferenciación.</p></div>
+        <div class="alcance-card reveal reveal-delay-2"><div class="alcance-icon"><svg viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 22l6-6 4 4 8-8 6 6"/><rect x="4" y="8" width="28" height="22" rx="2"/></svg></div><h3>Voz y personalidad</h3><p>Voz de marca, líneas de comunicación y mensajes clave.</p></div>
+        <div class="alcance-card reveal"><div class="alcance-icon"><svg viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="6" width="24" height="24" rx="3"/><line x1="6" y1="14" x2="30" y2="14"/><line x1="14" y1="6" x2="14" y2="30"/></svg></div><h3>Plan de medios</h3><p>Inversión anual con proyección de resultados y distribución de contenido.</p></div>
+        <div class="alcance-card reveal reveal-delay-1"><div class="alcance-icon"><svg viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="18" r="13"/><path d="M18 12v6l4 2"/><circle cx="18" cy="18" r="2"/></svg></div><h3>Medios tradicionales</h3><p>Recomendación de publicidad en medios tradicionales si aplica.</p></div>
+        <div class="alcance-card reveal reveal-delay-2"><div class="alcance-icon"><svg viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6h12a2 2 0 012 2v20a2 2 0 01-2 2H12a2 2 0 01-2-2V8a2 2 0 012-2z"/><circle cx="18" cy="14" r="4"/><path d="M12 24h12"/><path d="M14 28h8"/></svg></div><h3>Identidad visual</h3><p>Moodboard: paleta de colores, tipografías, estilo fotográfico y dirección creativa.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider-dark"></div>
+  <section class="section">
+    <div class="container">
+      <div class="section-eyebrow reveal">Planeación de contenido</div>
+      <h2 class="section-heading reveal reveal-delay-1">Un mes de contenido<br>estratégico listo para ejecutar.</h2>
+      <p class="section-body reveal reveal-delay-2">Planeación para el primer mes con copys, guiones de video, ideas creativas, referencias gráficas, dirección creativa y recomendaciones de producción.</p>
+      <div class="plan-highlight reveal reveal-delay-3">
+        <div class="plan-stat"><div class="plan-stat-num">12</div><div class="plan-stat-label">Publicaciones planeadas</div></div>
+        <div class="plan-stat"><div class="plan-stat-num">1</div><div class="plan-stat-label">Mes de calendario</div></div>
+        <div class="plan-stat"><div class="plan-stat-num">∞</div><div class="plan-stat-label">Visión a largo plazo</div></div>
+      </div>
+      <div class="nota-produccion reveal reveal-delay-4">La producción y ejecución del material (fotografía y video) no están incluidas, considerando que ya cuentan con productora. En caso de requerirse, se cotizarán por separado.</div>
+    </div>
+  </section>
+
+  <div class="divider-dark"></div>
+  <section class="section">
+    <div class="container">
+      <div class="section-eyebrow reveal">Entregables</div>
+      <h2 class="section-heading reveal reveal-delay-1">Lo que recibirán.</h2>
+      <div style="margin-top:36px;">
+        <div class="entregable-row reveal reveal-delay-1"><span class="entregable-num">01</span><span class="entregable-text">Documento PDF de estrategia de marketing y comunicación con enfoque anual y de largo plazo.</span></div>
+        <div class="entregable-row reveal reveal-delay-2"><span class="entregable-num">02</span><span class="entregable-text">Calendario de contenido correspondiente al primer mes de ejecución.</span></div>
+        <div class="entregable-row reveal reveal-delay-3"><span class="entregable-num">03</span><span class="entregable-text">Archivos editables de diseño en formato PSD, en caso de generarse piezas gráficas.</span></div>
+      </div>
+      <div class="nota-produccion reveal reveal-delay-4" style="margin-top:36px;">Se recomienda hacer un follow-up de la estrategia cada año para mantener la relevancia y alineamiento con los objetivos comerciales.</div>
+    </div>
+  </section>
+
+  <div class="divider-dark"></div>
+  <section class="section">
+    <div class="container">
+      <div class="section-eyebrow reveal">Consideraciones</div>
+      <h2 class="section-heading reveal reveal-delay-1">Nuestra recomendación.</h2>
+      <div class="consideraciones-block reveal reveal-delay-2">
+        <p>La presente propuesta contempla la creación de una estrategia integral que funcionará como guía de crecimiento y posicionamiento para la marca a largo plazo, permitiendo una ejecución consistente y alineada con los objetivos comerciales de Restaurante Epazote.</p>
+        <p>Nuestra recomendación es desarrollar primero el análisis y la estrategia antes de establecer una iguala mensual de servicios. Esto nos permitirá comprender con mayor precisión las necesidades de la marca, identificar oportunidades de crecimiento y definir las acciones prioritarias.</p>
+        <p>Una vez concluida la fase estratégica, podremos presentar una propuesta de acompañamiento mensual alineada a los hallazgos obtenidos, optimizando la inversión y asegurando que cada acción se ejecute con dirección clara, objetivos definidos y presupuesto eficiente.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider-dark"></div>
+  <section class="section inversion-section">
+    <div class="container" style="text-align:center;">
+      <div class="section-eyebrow reveal" style="justify-content:center;">Inversión</div>
+      <h2 class="section-heading reveal reveal-delay-1" style="margin-bottom:44px;">Inversión total del proyecto</h2>
+      <div class="inversion-amount reveal reveal-delay-2">$10,000</div>
+      <div class="inversion-currency reveal reveal-delay-3">Pesos mexicanos · MXN</div>
+      <p class="inversion-note reveal reveal-delay-4">Incluye la totalidad de los entregables descritos en esta propuesta. No incluye producción audiovisual ni pauta publicitaria.</p>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-logo reveal">astra<svg viewBox="0 0 24 24" style="display:inline-block;width:14px;height:14px;margin-left:3px;vertical-align:super"><path d="M12 2l2.09 6.26L20.18 10l-6.09 1.74L12 18l-2.09-6.26L3.82 10l6.09-1.74L12 2z" fill="#8D9BFF"/></svg></div>
+      <div class="footer-sub reveal reveal-delay-1">Consultoría Estratégica</div>
+      <div class="footer-founders reveal reveal-delay-2">César Gaytán & Cristina Rodríguez</div>
+      <div class="footer-role reveal reveal-delay-3">Co-founders</div>
+      <div class="footer-year reveal reveal-delay-4">© 2026 Astra</div>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.12, rootMargin: '0px 0px -30px 0px' });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+const topbar = document.getElementById('topbar');
+const progressBar = document.getElementById('progressBar');
+const propWorld = document.getElementById('propWorld');
+
+window.addEventListener('scroll', () => {
+  topbar.classList.toggle('show', scrollY > innerHeight * 0.75);
+  const p = (scrollY / (document.documentElement.scrollHeight - innerHeight)) * 100;
+  progressBar.style.width = p + '%';
+
+  const propTop = propWorld.getBoundingClientRect().top;
+  const inProp = propTop < innerHeight * 0.4;
+
+  if (inProp) {
+    topbar.classList.remove('light-bg');
+    topbar.classList.add('dark-bg');
+  } else {
+    topbar.classList.remove('dark-bg');
+    topbar.classList.add('light-bg');
+  }
+});
+
+setTimeout(() => {
+  document.querySelectorAll('.hero .reveal').forEach(el => el.classList.add('visible'));
+}, 200);
+</script>
+</body>
+</html>
